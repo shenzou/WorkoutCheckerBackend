@@ -1,4 +1,4 @@
-package com.shenzou.workoutcheckerbackend.user;
+package com.shenzou.workoutcheckerbackend.authentication.user;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

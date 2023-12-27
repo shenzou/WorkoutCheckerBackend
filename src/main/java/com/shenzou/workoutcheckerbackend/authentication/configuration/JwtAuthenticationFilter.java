@@ -1,7 +1,7 @@
-package com.shenzou.workoutcheckerbackend.configuration;
+package com.shenzou.workoutcheckerbackend.authentication.configuration;
 
-import com.shenzou.workoutcheckerbackend.service.JwtService;
-import com.shenzou.workoutcheckerbackend.token.TokenRepository;
+import com.shenzou.workoutcheckerbackend.authentication.service.JwtService;
+import com.shenzou.workoutcheckerbackend.authentication.token.TokenRepository;
 import io.jsonwebtoken.io.IOException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

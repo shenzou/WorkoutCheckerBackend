@@ -1,4 +1,4 @@
-package com.shenzou.workoutcheckerbackend.workout;
+package com.shenzou.workoutcheckerbackend.workout.muscle;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

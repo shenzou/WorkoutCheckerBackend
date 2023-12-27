@@ -1,4 +1,4 @@
-package com.shenzou.workoutcheckerbackend.service;
+package com.shenzou.workoutcheckerbackend.authentication.service;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

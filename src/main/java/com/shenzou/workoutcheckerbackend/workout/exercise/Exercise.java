@@ -1,5 +1,6 @@
-package com.shenzou.workoutcheckerbackend.workout;
+package com.shenzou.workoutcheckerbackend.workout.exercise;
 
+import com.shenzou.workoutcheckerbackend.workout.muscle.Muscle;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,7 +25,9 @@ public class Exercise {
     private String videolink;
     private String icon;
     @OneToMany
+    @JoinColumn(name = "primarymuscle")
     private List<Muscle> muscles;
     @OneToMany
+    @JoinColumn(name = "secondaryMuscle")
     private List<Muscle> secondaryMuscles;
 }

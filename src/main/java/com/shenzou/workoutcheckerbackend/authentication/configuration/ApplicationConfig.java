@@ -1,6 +1,6 @@
-package com.shenzou.workoutcheckerbackend.configuration;
+package com.shenzou.workoutcheckerbackend.authentication.configuration;
 
-import com.shenzou.workoutcheckerbackend.user.UserRepository;
+import com.shenzou.workoutcheckerbackend.authentication.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

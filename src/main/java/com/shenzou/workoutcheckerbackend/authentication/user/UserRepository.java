@@ -1,4 +1,4 @@
-package com.shenzou.workoutcheckerbackend.user;
+package com.shenzou.workoutcheckerbackend.authentication.user;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

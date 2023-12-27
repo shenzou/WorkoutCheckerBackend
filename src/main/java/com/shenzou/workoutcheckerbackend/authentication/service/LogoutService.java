@@ -1,6 +1,6 @@
-package com.shenzou.workoutcheckerbackend.service;
+package com.shenzou.workoutcheckerbackend.authentication.service;
 
-import com.shenzou.workoutcheckerbackend.token.TokenRepository;
+import com.shenzou.workoutcheckerbackend.authentication.token.TokenRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;

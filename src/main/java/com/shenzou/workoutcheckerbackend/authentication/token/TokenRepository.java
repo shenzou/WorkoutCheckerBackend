@@ -1,4 +1,4 @@
-package com.shenzou.workoutcheckerbackend.token;
+package com.shenzou.workoutcheckerbackend.authentication.token;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

@@ -1,6 +1,9 @@
-package com.shenzou.workoutcheckerbackend.workout;
+package com.shenzou.workoutcheckerbackend.workout.serie;
 
-import com.shenzou.workoutcheckerbackend.user.User;
+import com.shenzou.workoutcheckerbackend.authentication.user.User;
+import com.shenzou.workoutcheckerbackend.workout.exercise.Exercise;
+import com.shenzou.workoutcheckerbackend.workout.exercise.UserExercise;
+import com.shenzou.workoutcheckerbackend.workout.seance.Seance;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

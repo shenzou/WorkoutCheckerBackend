@@ -1,13 +1,13 @@
 package com.shenzou.workoutcheckerbackend.authentication;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.shenzou.workoutcheckerbackend.service.JwtService;
-import com.shenzou.workoutcheckerbackend.token.Token;
-import com.shenzou.workoutcheckerbackend.token.TokenRepository;
-import com.shenzou.workoutcheckerbackend.token.TokenType;
-import com.shenzou.workoutcheckerbackend.user.Role;
-import com.shenzou.workoutcheckerbackend.user.User;
-import com.shenzou.workoutcheckerbackend.user.UserRepository;
+import com.shenzou.workoutcheckerbackend.authentication.service.JwtService;
+import com.shenzou.workoutcheckerbackend.authentication.token.Token;
+import com.shenzou.workoutcheckerbackend.authentication.token.TokenRepository;
+import com.shenzou.workoutcheckerbackend.authentication.token.TokenType;
+import com.shenzou.workoutcheckerbackend.authentication.user.Role;
+import com.shenzou.workoutcheckerbackend.authentication.user.User;
+import com.shenzou.workoutcheckerbackend.authentication.user.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;

@@ -1,6 +1,6 @@
-package com.shenzou.workoutcheckerbackend.user;
+package com.shenzou.workoutcheckerbackend.authentication.user;
 
-import com.shenzou.workoutcheckerbackend.token.Token;
+import com.shenzou.workoutcheckerbackend.authentication.token.Token;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
