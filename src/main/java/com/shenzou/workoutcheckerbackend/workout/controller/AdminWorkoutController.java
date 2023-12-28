@@ -1,8 +1,9 @@
 package com.shenzou.workoutcheckerbackend.workout.controller;
 
-import com.shenzou.workoutcheckerbackend.workout.service.WorkoutService;
 import com.shenzou.workoutcheckerbackend.workout.exercise.ExerciseRequest;
+import com.shenzou.workoutcheckerbackend.workout.service.WorkoutService;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -24,11 +25,13 @@ public class AdminWorkoutController {
         return ResponseEntity.status(HttpStatus.CREATED).body(workoutService.createExercise(request));
     }
 
+    @SneakyThrows
     @PostMapping("/muscles")
     public ResponseEntity<?> createMuscles() {
         return ResponseEntity.status(HttpStatus.CREATED).body(workoutService.createMuscles());
     }
 
+    @SneakyThrows
     @PostMapping("/exercises")
     public ResponseEntity<?> createExercises() {
         return ResponseEntity.status(HttpStatus.CREATED).body(workoutService.createExercises());

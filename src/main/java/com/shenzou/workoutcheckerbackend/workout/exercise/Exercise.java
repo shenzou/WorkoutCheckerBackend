@@ -7,7 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
+import java.util.Set;
 
 @Data
 @Builder
@@ -24,10 +24,8 @@ public class Exercise {
     private String description;
     private String videolink;
     private String icon;
-    @OneToMany
-    @JoinColumn(name = "primarymuscle")
-    private List<Muscle> muscles;
-    @OneToMany
-    @JoinColumn(name = "secondaryMuscle")
-    private List<Muscle> secondaryMuscles;
+    @ManyToMany
+    private Set<Muscle> muscles;
+    @ManyToMany
+    private Set<Muscle> secondarymuscles;
 }

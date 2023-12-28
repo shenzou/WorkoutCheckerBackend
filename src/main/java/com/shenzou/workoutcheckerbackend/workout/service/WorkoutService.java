@@ -2,13 +2,16 @@ package com.shenzou.workoutcheckerbackend.workout.service;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.shenzou.workoutcheckerbackend.authentication.user.User;
+import com.shenzou.workoutcheckerbackend.exception.FileNotFoundException;
 import com.shenzou.workoutcheckerbackend.workout.AdminExercises;
-import com.shenzou.workoutcheckerbackend.workout.exercise.Exercise;
-import com.shenzou.workoutcheckerbackend.workout.exercise.ExerciseRepository;
-import com.shenzou.workoutcheckerbackend.workout.exercise.ExerciseRequest;
+import com.shenzou.workoutcheckerbackend.workout.exercise.*;
 import com.shenzou.workoutcheckerbackend.workout.muscle.Muscle;
 import com.shenzou.workoutcheckerbackend.workout.muscle.MuscleRepository;
+import jakarta.servlet.ServletContext;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -16,20 +19,24 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class WorkoutService {
 
+    private final ServletContext context;
     private final ExerciseRepository exerciseRepository;
+    private final CustomExerciseRepository customExerciseRepository;
     private final MuscleRepository muscleRepository;
 
     public List<Exercise> findExercises(String muscle) {
+
+        if(muscle != null && !muscle.isEmpty()){
+            return exerciseRepository.findAllByMusclesNameContains(muscle)
+                    .orElseThrow();
+        }
         return exerciseRepository.findAll();
     }
 
@@ -44,13 +51,42 @@ public class WorkoutService {
         return exerciseRepository.save(exercise);
     }
 
-    public List<Muscle> createMuscles() {
+    public UserExercise createCustomExercise(ExerciseRequest request) {
+        Set<Muscle> primaryMuscles = null;
+        if(request.getMusclesIds() != null){
+            primaryMuscles = new HashSet<>(muscleRepository.findAllById(request.getMusclesIds()));
+
+        }
+        Set<Muscle> secondaryMuscles = null;
+        if(request.getSecondaryMusclesIds() != null){
+            secondaryMuscles = new HashSet<>(muscleRepository.findAllById(request.getSecondaryMusclesIds()));
+
+        }
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Integer connectedUser = Optional.ofNullable(((User) authentication.getPrincipal()).getId())
+                .orElseThrow();
+
+        UserExercise exercise = UserExercise.builder()
+                .name(request.getName())
+                .description(request.getDescription())
+                .videolink(request.getVideoLink())
+                .icon(request.getIcon())
+                .muscles(primaryMuscles)
+                .secondarymuscles(secondaryMuscles)
+                .userId(connectedUser)
+                .build();
+
+        return customExerciseRepository.save(exercise);
+    }
+
+    public List<Muscle> createMuscles() throws FileNotFoundException {
         ObjectMapper mapper = new ObjectMapper();
         List<AdminExercises> exercises;
         try {
             URL url = this.getClass().getClassLoader().getResource("exercises.json");
             if(url == null){
-                throw new RuntimeException();
+                throw new FileNotFoundException();
             }
             exercises = mapper.readValue(Files.readString(Paths.get(url.toURI())), new TypeReference<>() {});
         } catch(IOException | URISyntaxException e){
@@ -79,13 +115,13 @@ public class WorkoutService {
         return muscleRepository.findAll();
     }
 
-    public List<Exercise> createExercises() {
+    public List<Exercise> createExercises() throws FileNotFoundException {
         ObjectMapper mapper = new ObjectMapper();
         List<AdminExercises> exercises;
         try {
             URL url = this.getClass().getClassLoader().getResource("exercises.json");
             if(url == null){
-                throw new RuntimeException();
+                throw new FileNotFoundException();
             }
             exercises = mapper.readValue(Files.readString(Paths.get(url.toURI())), new TypeReference<>() {});
         } catch(IOException | URISyntaxException e){
@@ -99,16 +135,16 @@ public class WorkoutService {
                     List<String> primaryMuscles = new ArrayList<>(Arrays.asList(s.getPrimaryMuscles()));
                     List<String> secondaryMuscles = new ArrayList<>(Arrays.asList(s.getSecondaryMuscles()));
 
-                    List<Muscle> primary = primaryMuscles.stream()
+                    Set<Muscle> primary = primaryMuscles.stream()
                             .flatMap(s1 -> muscles.stream()
                                     .filter(muscle -> s1.equalsIgnoreCase(muscle.getName()))
                             )
-                            .toList();
-                    List<Muscle> secondary = secondaryMuscles.stream()
+                            .collect(Collectors.toSet());
+                    Set<Muscle> secondary = secondaryMuscles.stream()
                             .flatMap(s1 -> muscles.stream()
                                     .filter(muscle -> s1.equalsIgnoreCase(muscle.getName()))
                             )
-                            .toList();
+                            .collect(Collectors.toSet());
 
                     return Exercise.builder()
                             .name(s.getName())
@@ -118,7 +154,7 @@ public class WorkoutService {
                                     .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
                                     .toString())
                             .muscles(primary)
-                            .secondaryMuscles(secondary)
+                            .secondarymuscles(secondary)
                             .build();
                 })
                 .toList();

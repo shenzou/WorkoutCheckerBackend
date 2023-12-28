@@ -5,8 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 import java.util.Optional;
 
-public interface ExerciseRepository extends JpaRepository<Exercise, Integer> {
+public interface CustomExerciseRepository extends JpaRepository<UserExercise, Integer> {
 
-    Optional<List<Exercise>> findAllByMusclesNameContains(String muscle);
+    Optional<List<UserExercise>> findAllByMusclesNameContains(String muscle);
 
 }
